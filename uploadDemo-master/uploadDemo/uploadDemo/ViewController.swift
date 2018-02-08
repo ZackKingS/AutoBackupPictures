@@ -21,7 +21,7 @@ import Kingfisher
 
 
 //设置服务器地址
-let mainURL = "http://207.148.19.37/uploadFile"
+let mainURL = "http://207.148.19.xx/uploadFile"
 //上传图片
 let uploadURL = "\(mainURL)/upload.php"
 //下载图片
