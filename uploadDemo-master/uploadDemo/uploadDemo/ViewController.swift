@@ -30,6 +30,7 @@ let downLoadURL = "\(mainURL)/bringBackAllPics.php"
 
 class ViewController: UIViewController,UIImagePickerControllerDelegate, UINavigationControllerDelegate ,M80RecentImageFinderDelegate ,UITableViewDelegate,UITableViewDataSource{
     
+    let cache = KingfisherManager.shared.cache
     var tableView : UITableView?
     var dataArray = [JSON]()
     let cell = "cell"
@@ -39,6 +40,13 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        // Set max disk cache to 50 mb. Default is no limit.
+        cache.maxDiskCacheSize = 50 * 1024 * 1024
+        
+        // Set max disk cache to duration to 3 days, Default is 1 week.
+        cache.maxCachePeriodInSecond = 60 * 60 * 24 * 3
         
         finder.delegate  = self
         tableView = UITableView(frame:  CGRect(x: 0 , y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height ), style: UITableViewStyle.plain)
@@ -472,6 +480,20 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         
         return resizedImg!
         
+    }
+    
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        
+        // Clear memory cache right away.
+        cache.clearMemoryCache()
+        
+        // Clear disk cache. This is an async operation.
+        cache.clearDiskCache()
+        
+        // Clean expired or size exceeded disk cache. This is an async operation.
+        cache.cleanExpiredDiskCache()
     }
     
 
