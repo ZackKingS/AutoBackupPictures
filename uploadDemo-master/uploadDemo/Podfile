@@ -8,5 +8,5 @@ pod 'Alamofire'
 pod ‘SwiftyJSON’
 pod 'SVProgressHUD'
 pod 'Kingfisher'
-
+pod 'MJRefresh'
 end

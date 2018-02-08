@@ -46,9 +46,14 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         tableView?.delegate = self
         self.view.addSubview(tableView!)
         self.tableView?.register(UINib.init(nibName: "PictureCell", bundle: nil), forCellReuseIdentifier: cell)
+        
+        
         request()
         
     }
+    
+    
+ 
     
     
     func request() {
