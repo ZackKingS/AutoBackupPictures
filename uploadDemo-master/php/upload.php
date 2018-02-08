@@ -28,26 +28,17 @@ if (($_FILES["file"]["type"] == "image/gif")
         $dir = iconv("UTF-8", "GBK", "./pics");
         if (!file_exists($dir)){
             mkdir ($dir,0777,true);
-//            echo '创建文件夹bookcover成功';
         } else {
-//            echo '需创建的文件夹bookcover已经存在';
+
         }
 
-        //1.
-//        $path = "./pics/".md5(uniqid(rand())).'.'.$type; // 产生随机唯一的名字
-
-        //2.
         $name = $_POST['time']; // 得到文件全名
         $path = "./pics/".$name.'.'.$type; // 产生随机唯一的名字
-
-
         move_uploaded_file( // 从临时目录复制到目标目录
             $_FILES["file"]["tmp_name"], // 存储在服务器的文件的临时副本的名称
             $path);
-
         $arry  = array( 'messsage' => "1");
         fclose($myfile);
-
         echo json_encode($arry);
     }
 } else {

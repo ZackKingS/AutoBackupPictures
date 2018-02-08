@@ -21,7 +21,7 @@ import Kingfisher
 
 
 //设置服务器地址
-let mainURL = "http://207.148.19.xx/uploadFile"
+let mainURL = "http://207.148.19.37/uploadFile"
 //上传图片
 let uploadURL = "\(mainURL)/upload.php"
 //下载图片
@@ -30,14 +30,12 @@ let downLoadURL = "\(mainURL)/bringBackAllPics.php"
 
 class ViewController: UIViewController,UIImagePickerControllerDelegate, UINavigationControllerDelegate ,M80RecentImageFinderDelegate ,UITableViewDelegate,UITableViewDataSource{
     
-    
     var tableView : UITableView?
     var dataArray = [JSON]()
     let cell = "cell"
     //设置标志，用于标识上传那种类型文件（图片／视频）
     var flag = ""
     var finder = M80RecentImageFinder()
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,27 +48,22 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         self.tableView?.register(UINib.init(nibName: "PictureCell", bundle: nil), forCellReuseIdentifier: cell)
         request()
         
-       
-        
     }
     
     
     func request() {
+        SVProgressHUD.show()
         Alamofire.request(downLoadURL).responseJSON { response in
-            
             guard response.result.isSuccess else {
                 return
             }
-            
+            SVProgressHUD.dismiss()
             if let value = response.result.value {
-                
                 let json = JSON(value).arrayValue
                 self.dataArray = json
                 self.tableView?.reloadData()
-                
             }
         }
-        
     }
     
 
@@ -123,10 +116,19 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
                     //获取照片正确创建时间
                     date = date.addingTimeInterval(TimeInterval(second))
                     
+                    print(date)
+                    
     
                     let formatter = DateFormatter()
-                    formatter.dateFormat = "yyyy-MM-dd hh:mm:ss"  //格式有问题
+                    let timeZone = TimeZone.init(identifier: "UTC")
+                    formatter.timeZone = timeZone
+                    formatter.locale = Locale.init(identifier: "zh_CN")
+                    formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"  //格式有问题
                     let creatTime = formatter.string(from: date as Date)
+                    
+                    
+                     print(creatTime)
+                    
                     
                     //转换成string
                     print(creatTime)
