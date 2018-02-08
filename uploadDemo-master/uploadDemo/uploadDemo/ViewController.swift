@@ -60,10 +60,8 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
             SVProgressHUD.dismiss()
             if let value = response.result.value {
                 let json = JSON(value).arrayValue
-
                 self.dataArray = [JSON]()
                 json.reversed().forEach { (pic) in
-                    
                     self.dataArray.append(pic)
                 }
                 self.tableView?.reloadData()
@@ -130,14 +128,15 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
                     formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"  //格式有问题
                     let creatTime = formatter.string(from: date as Date)
                     
-                   
-                    
                     //转换成string
                     print(creatTime)
                     let number = "\(i+1)"
                     
+                    let imageD : UIImage = UIImage.init(data: data as Data)!
+                    let compressData  = UIImageJPEGRepresentation(imageD, 0.01)
                     
-                    self.uploadImage(imageData: data as Data , time: creatTime as String ,count: number )
+                    
+                    self.uploadImage(imageData: compressData!  , time: creatTime as String ,count: number )
                     
                 }
      
