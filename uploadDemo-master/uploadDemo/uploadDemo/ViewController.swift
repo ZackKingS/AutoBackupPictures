@@ -60,7 +60,12 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
             SVProgressHUD.dismiss()
             if let value = response.result.value {
                 let json = JSON(value).arrayValue
-                self.dataArray = json
+
+                self.dataArray = [JSON]()
+                json.reversed().forEach { (pic) in
+                    
+                    self.dataArray.append(pic)
+                }
                 self.tableView?.reloadData()
             }
         }
