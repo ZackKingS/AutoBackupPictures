@@ -42,13 +42,18 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             if (status == PHAuthorizationStatusAuthorized) {
                 
-                PHFetchResult *recentCollections = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum
-                                                                                            subtype:PHAssetCollectionSubtypeSmartAlbumRecentlyAdded
+                PHFetchResult *recentCollections = [PHAssetCollection
+
+                   fetchAssetCollectionsWithType  :   PHAssetCollectionTypeSmartAlbum
+                                        subtype   :   PHAssetCollectionSubtypeSmartAlbumRecentlyAdded
                                                                                             options:nil];
+
                 
                 PHFetchOptions *fetchOptions = [PHFetchOptions new];
                 fetchOptions.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES]];
                 fetchOptions.predicate = [NSPredicate predicateWithFormat:@"mediaType = %i", PHAssetMediaTypeImage];
+//                fetchOptions.predicate = [NSPredicate predicateWithFormat:@"mediaType = %i", PHAssetMediaTypeVideo];
+                
                 
                 PHAssetCollection *collection = [recentCollections firstObject];
                 PHFetchResult *result = [PHAsset fetchAssetsInAssetCollection:collection options:fetchOptions];
@@ -62,6 +67,10 @@
                     if ([obj isKindOfClass:[PHAsset class]])
                     {
                         PHAsset *asset = (PHAsset *)obj;
+                        
+                        
+                        NSLog(@"%ld",(long)asset.mediaType);
+                        
                         NSDate *creationDate = asset.creationDate;
                         if ([creationDate timeIntervalSinceDate:date] > 0 &&
                             [creationDate timeIntervalSinceDate:lastSearchDate] > 0)

@@ -149,7 +149,10 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         str = str.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
         let url = URL(string: str)
         cell.imageV.kf.setImage(with: url) //  dataArray[indexPath.row]
-        cell.imageV.contentMode = .scaleAspectFit
+//        cell.imageV.contentMode = .scaleAspectFit
+        
+            cell.imageV.contentMode = .scaleAspectFill
+        
         return cell
 
     }

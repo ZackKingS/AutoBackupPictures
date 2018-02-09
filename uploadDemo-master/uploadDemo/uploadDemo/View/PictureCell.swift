@@ -38,6 +38,9 @@ class PictureCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         setupUI()
+        
+//        imageV.clipsToBounds
+        
   
     }
     

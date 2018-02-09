@@ -16,14 +16,14 @@
             <rect key="frame" x="0.0" y="0.0" width="452" height="101"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="L9F-XP-X2q">
-                    <rect key="frame" x="20" y="12" width="80" height="77"/>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="L9F-XP-X2q">
+                    <rect key="frame" x="20" y="12" width="65" height="77"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="80" id="TW9-2D-sXH"/>
+                        <constraint firstAttribute="width" constant="65" id="TW9-2D-sXH"/>
                     </constraints>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nxA-fh-iwj">
-                    <rect key="frame" x="105" y="32" width="37.5" height="18"/>
+                    <rect key="frame" x="90" y="32" width="37.5" height="18"/>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
