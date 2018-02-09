@@ -95,11 +95,7 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         }
     }
 
-    
-   
-    
-    
-    
+
     // MARK: - UITableViewDataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dataArray.count
@@ -136,10 +132,7 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
                 SVProgressHUD.dismiss()
                 return
             }
-            
-
         }
-        
     }
     
    
@@ -147,13 +140,8 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
         return "删除"
     }
-    
- 
-  
-    
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! PictureCell
         cell.picName.text = self.dataArray[indexPath.row].stringValue
@@ -161,15 +149,28 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         str = str.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
         let url = URL(string: str)
         cell.imageV.kf.setImage(with: url) //  dataArray[indexPath.row]
+        cell.imageV.contentMode = .scaleAspectFit
         return cell
 
     }
     
    // MARK: -  UITableViewDelegate
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 300
+        return 80
     }
     
+    
+    
+    // MARK: -  查看详情
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        
+        let detailImageController = ZBDetailViewController()
+        detailImageController.picUrl = dataArray[indexPath.row].stringValue
+        self.navigationController?.pushViewController(detailImageController, animated: true)
+        
+        
+    }
     
     // MARK: -  FindPicDelegate
     func onFindRecentImages(_ images: [PHAsset]!) {
@@ -211,17 +212,8 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
                     self.uploadImage(imageData: compressData!  , time: creatTime as String ,count: number )
                     
                 }
-     
-                
             }
-
     }
-    
-    
-    
-    @IBOutlet weak var myImageV: UIImageView!
-    
-
     
     //图库 - 照片
     func photoLib(){

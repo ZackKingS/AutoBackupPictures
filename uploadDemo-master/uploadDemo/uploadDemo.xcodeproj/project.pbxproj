@@ -12,6 +12,10 @@
 		3A51C196202D3B1600A674A1 /* PictureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A51C194202D3B1600A674A1 /* PictureCell.swift */; };
 		3A51C197202D3B1600A674A1 /* PictureCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A51C195202D3B1600A674A1 /* PictureCell.xib */; };
 		3A51C19B202D3B4500A674A1 /* M80RecentImageFinder.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A51C199202D3B4500A674A1 /* M80RecentImageFinder.m */; };
+		3A51C19D202D7FF400A674A1 /* ZBDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A51C19C202D7FF400A674A1 /* ZBDetailViewController.swift */; };
+		3A51C19F202D803400A674A1 /* ZBDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A51C19E202D803400A674A1 /* ZBDetailViewController.xib */; };
+		3A51C1A1202D84D200A674A1 /* 1234.png in Resources */ = {isa = PBXBuildFile; fileRef = 3A51C1A0202D84D100A674A1 /* 1234.png */; };
+		3A51C1A7202D940A00A674A1 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A51C1A6202D940A00A674A1 /* UIView+Extension.swift */; };
 		EAC084C11F49FD0300545940 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAC084C01F49FD0300545940 /* AppDelegate.swift */; };
 		EAC084C61F49FD0300545940 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EAC084C41F49FD0300545940 /* Main.storyboard */; };
 		EAC084C81F49FD0300545940 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EAC084C71F49FD0300545940 /* Assets.xcassets */; };
@@ -25,6 +29,10 @@
 		3A51C195202D3B1600A674A1 /* PictureCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PictureCell.xib; sourceTree = "<group>"; };
 		3A51C199202D3B4500A674A1 /* M80RecentImageFinder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = M80RecentImageFinder.m; sourceTree = "<group>"; };
 		3A51C19A202D3B4500A674A1 /* M80RecentImageFinder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = M80RecentImageFinder.h; sourceTree = "<group>"; };
+		3A51C19C202D7FF400A674A1 /* ZBDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZBDetailViewController.swift; sourceTree = "<group>"; };
+		3A51C19E202D803400A674A1 /* ZBDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ZBDetailViewController.xib; sourceTree = "<group>"; };
+		3A51C1A0202D84D100A674A1 /* 1234.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1234.png; sourceTree = "<group>"; };
+		3A51C1A6202D940A00A674A1 /* UIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		3ABEFBC220296C35000143E0 /* uploadDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "uploadDemo-Bridging-Header.h"; sourceTree = "<group>"; };
 		432FB0CEA9A0451F72418DAD /* Pods-uploadDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uploadDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-uploadDemo/Pods-uploadDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		D07AF878B9D07EA858B46544 /* Pods_uploadDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_uploadDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -52,6 +60,8 @@
 			isa = PBXGroup;
 			children = (
 				3A51C191202D3AD000A674A1 /* ViewController.swift */,
+				3A51C19C202D7FF400A674A1 /* ZBDetailViewController.swift */,
+				3A51C19E202D803400A674A1 /* ZBDetailViewController.xib */,
 			);
 			path = Conroller;
 			sourceTree = "<group>";
@@ -72,6 +82,22 @@
 				3A51C199202D3B4500A674A1 /* M80RecentImageFinder.m */,
 			);
 			path = Utlity;
+			sourceTree = "<group>";
+		};
+		3A51C1A4202D940A00A674A1 /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				3A51C1A5202D940A00A674A1 /* Category */,
+			);
+			path = Other;
+			sourceTree = "<group>";
+		};
+		3A51C1A5202D940A00A674A1 /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				3A51C1A6202D940A00A674A1 /* UIView+Extension.swift */,
+			);
+			path = Category;
 			sourceTree = "<group>";
 		};
 		480D9B9806F69F7C3D77C4DF /* Pods */ = {
@@ -116,8 +142,10 @@
 				3A51C198202D3B4500A674A1 /* Utlity */,
 				3A51C193202D3B1600A674A1 /* View */,
 				EAC084C01F49FD0300545940 /* AppDelegate.swift */,
+				3A51C1A0202D84D100A674A1 /* 1234.png */,
 				3ABEFBC220296C35000143E0 /* uploadDemo-Bridging-Header.h */,
 				EAC084C91F49FD0300545940 /* LaunchScreen.storyboard */,
+				3A51C1A4202D940A00A674A1 /* Other */,
 				EAC084C41F49FD0300545940 /* Main.storyboard */,
 				EAC084C71F49FD0300545940 /* Assets.xcassets */,
 				EAC084CC1F49FD0300545940 /* Info.plist */,
@@ -192,6 +220,8 @@
 				EAC084CB1F49FD0300545940 /* LaunchScreen.storyboard in Resources */,
 				3A51C197202D3B1600A674A1 /* PictureCell.xib in Resources */,
 				EAC084C81F49FD0300545940 /* Assets.xcassets in Resources */,
+				3A51C1A1202D84D200A674A1 /* 1234.png in Resources */,
+				3A51C19F202D803400A674A1 /* ZBDetailViewController.xib in Resources */,
 				EAC084C61F49FD0300545940 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -265,6 +295,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A51C1A7202D940A00A674A1 /* UIView+Extension.swift in Sources */,
+				3A51C19D202D7FF400A674A1 /* ZBDetailViewController.swift in Sources */,
 				3A51C192202D3AD000A674A1 /* ViewController.swift in Sources */,
 				3A51C196202D3B1600A674A1 /* PictureCell.swift in Sources */,
 				3A51C19B202D3B4500A674A1 /* M80RecentImageFinder.m in Sources */,

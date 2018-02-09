@@ -13,27 +13,29 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="PictureCell" customModule="uploadDemo" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="452" height="236"/>
+            <rect key="frame" x="0.0" y="0.0" width="452" height="101"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="L9F-XP-X2q">
-                    <rect key="frame" x="20" y="12" width="232" height="212"/>
+                    <rect key="frame" x="20" y="12" width="80" height="77"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="80" id="TW9-2D-sXH"/>
+                    </constraints>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nxA-fh-iwj">
-                    <rect key="frame" x="257" y="12" width="37.5" height="18"/>
+                    <rect key="frame" x="105" y="32" width="37.5" height="18"/>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                    <nil key="textColor"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
             <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="L9F-XP-X2q" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="12" id="4A7-lR-fl6"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="L9F-XP-X2q" secondAttribute="trailing" constant="200" id="5iO-ED-tn2"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="L9F-XP-X2q" secondAttribute="bottom" constant="12" id="F4B-je-bzH"/>
                 <constraint firstItem="L9F-XP-X2q" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="afe-do-UIx"/>
                 <constraint firstItem="nxA-fh-iwj" firstAttribute="leading" secondItem="L9F-XP-X2q" secondAttribute="trailing" constant="5" id="qhw-bW-eCg"/>
-                <constraint firstItem="nxA-fh-iwj" firstAttribute="top" secondItem="L9F-XP-X2q" secondAttribute="top" id="sfx-3M-sZm"/>
+                <constraint firstItem="nxA-fh-iwj" firstAttribute="top" secondItem="L9F-XP-X2q" secondAttribute="top" constant="20" id="sfx-3M-sZm"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
@@ -41,7 +43,7 @@
                 <outlet property="imageV" destination="L9F-XP-X2q" id="nHI-Cn-GRu"/>
                 <outlet property="picName" destination="nxA-fh-iwj" id="4A9-kh-rIy"/>
             </connections>
-            <point key="canvasLocation" x="100" y="270"/>
+            <point key="canvasLocation" x="100" y="337.5"/>
         </view>
     </objects>
 </document>
