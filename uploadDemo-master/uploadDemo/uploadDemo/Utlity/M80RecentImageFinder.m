@@ -68,9 +68,7 @@
                     {
                         PHAsset *asset = (PHAsset *)obj;
                         
-                        
-                        NSLog(@"%ld",(long)asset.mediaType);
-                        
+                      
                         NSDate *creationDate = asset.creationDate;
                         if ([creationDate timeIntervalSinceDate:date] > 0 &&
                             [creationDate timeIntervalSinceDate:lastSearchDate] > 0)
