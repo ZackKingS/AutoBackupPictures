@@ -26,7 +26,8 @@ let mainURL = "http://207.148.19.37/uploadFile"
 let uploadURL = "\(mainURL)/upload.php"
 //下载图片
 let downLoadURL = "\(mainURL)/bringBackAllPics.php"
-
+//删除图片
+let deletePictureURL = "\(mainURL)/deletePicture.php"
 
 class ViewController: UIViewController,UIImagePickerControllerDelegate, UINavigationControllerDelegate ,M80RecentImageFinderDelegate ,UITableViewDelegate,UITableViewDataSource{
     
@@ -42,48 +43,45 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-       
-        finder.delegate  = self
-      
+
         setupTableView()
-        
         setRefresh()
     }
     
     func setupTableView(){
+        
+        
         tableView = UITableView(frame:  CGRect(x: 0 , y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height ), style: UITableViewStyle.plain)
         tableView?.dataSource = self
         tableView?.delegate = self
         self.view.addSubview(tableView!)
         self.tableView?.register(UINib.init(nibName: "PictureCell", bundle: nil), forCellReuseIdentifier: cell)
         
+        
+        finder.delegate  = self
         cache.maxDiskCacheSize = 50 * 1024 * 1024
         cache.maxCachePeriodInSecond = 60 * 60 * 24 * 3
         
     }
-    
-    
+
     func setRefresh() {
-        
-        
+
         // 下拉刷新
         header.setRefreshingTarget(self, refreshingAction: #selector(request))
         // 现在的版本要用mj_header
         tableView?.mj_header = header
         header.beginRefreshing()
-        
-       
-        
+  
     }
     
- 
+    /** request */
     func request() {
         SVProgressHUD.show()
         Alamofire.request(downLoadURL).responseJSON { response in
             guard response.result.isSuccess else {
                 return
             }
+         
             SVProgressHUD.dismiss()
             if let value = response.result.value {
                 let json = JSON(value).arrayValue
@@ -97,11 +95,62 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         }
     }
 
-  
     
+   
+    
+    
+    
+    // MARK: - UITableViewDataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dataArray.count
     }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        // 要显示自定义的action,cell必须处于编辑状态
+        return true
+    }
+    
+   
+     // MARK: - 删除图片
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        // 同时你也需要实现本方法,否则自定义action是不会显示的,啦啦啦
+        
+        
+        SVProgressHUD.show()
+        let title = dataArray[indexPath.row].stringValue
+        var url  = "\(deletePictureURL)?filename=\(title)"
+        url = url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+        Alamofire.request(url).responseJSON { response in
+
+
+            switch response.result {
+            case .success(let value):
+                let json = JSON(value)
+                print ("JSON: \(json)")
+                self.request()
+                SVProgressHUD.dismiss()
+           
+                
+            case .failure(let error):
+                print("Error while querying database: \(String(describing: error))")
+                SVProgressHUD.dismiss()
+                return
+            }
+            
+
+        }
+        
+    }
+    
+   
+   
+    func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
+        return "删除"
+    }
+    
+ 
+  
+    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
@@ -116,16 +165,15 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
 
     }
     
-    
+   // MARK: -  UITableViewDelegate
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 300
     }
     
     
-    
+    // MARK: -  FindPicDelegate
     func onFindRecentImages(_ images: [PHAsset]!) {
 
-     
         let options :PHImageRequestOptions = PHImageRequestOptions()
         options.version = .current
         let manager :PHImageManager = PHImageManager.default()
@@ -273,7 +321,7 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         }
     }
     
-    //上传图片到服务器
+    // MARK: -  上传图片到服务器
     func uploadImage(imageData : Data ,time :String,  count:String  ){
         
       
@@ -323,7 +371,7 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         })
     }
     
-    //上传视频到服务器
+    // MARK: -  上传视频到服务器
     func uploadVideo(mp4Path : URL){
         Alamofire.upload(
             //同样采用post表单上传
