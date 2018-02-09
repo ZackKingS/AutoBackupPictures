@@ -8,6 +8,7 @@
 
 import Foundation
 import Kingfisher
+import SVProgressHUD
 
 class ZBDetailViewController: UIViewController {
     
@@ -23,62 +24,54 @@ class ZBDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//
+
         var str = "\(mainURL)/pics/\(picUrl)"
         str = str.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
-        let url = URL(string: str)
-        ImageV.kf.setImage(with: url) //  dataArray[indexPath.row]
 
+ 
+        let image = KingfisherManager.shared.cache.retrieveImageInDiskCache(forKey: str)
         
-        
-        
-        
-        
-        
-        
-        
-        
-//        let queue1 = DispatchQueue.global()
-//
-//        // 异步任务
-//        // 任务1
-//        queue1.async {
-//
-//            let request = NSURLRequest(url: url!)
-//            let imgData = try! NSURLConnection.sendSynchronousRequest(request as URLRequest, returning: nil)
-//            var img: UIImage? = nil
-//
-//            if imgData != nil {
-//                img = UIImage(data: imgData)!
-//
+        if image != nil {
+            
+            ImageV.image = image
+            
+//            print(image?.size.width)
+//            print(image?.size.height)
+            
+            if  Int((image?.size.width)!)  >  Int((image?.size.height)!)   {
+
+                self.picTop.constant =  150
+                self.picBotton.constant = 150
+            }else{
+
+
+            }
+            
+//            let  imagV = UIImageView()
 //
 //
-//                if  Int((img?.size.width)!)  >  Int((img?.size.height)!){
+//            imagV.zb_width = UIScreen.main.bounds.size.width
 //
-//                    self.picTop.constant =  150
-//                    self.picBotton.constant = 150
-//                }else{
+//            imagV.zb_height =  imagV.zb_width  * (image?.size.height)! /  (image?.size.width)!
 //
 //
-//                }
-//            }
+//            print( imagV.zb_height)
+//
+//            imagV.center = view.center
 //
 //
 //
+//            imagV.image = image
 //
-//        }
-        
-     
-        
-        
-        
-        
-        
-        
-        
+//            self.view.addSubview(imagV)
+            
+            
+        }else{
+            
+           
+        }
         
       
-        
         
     }
 }
