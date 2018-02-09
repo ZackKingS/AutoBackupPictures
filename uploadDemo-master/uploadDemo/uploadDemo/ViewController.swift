@@ -18,7 +18,7 @@ import PhotosUI
 import Photos
 import SVProgressHUD
 import Kingfisher
-
+import MJRefresh
 
 //设置服务器地址
 let mainURL = "http://207.148.19.37/uploadFile"
@@ -38,6 +38,8 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     var flag = ""
     var finder = M80RecentImageFinder()
     
+    let header = MJRefreshNormalHeader()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -49,6 +51,15 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         cache.maxCachePeriodInSecond = 60 * 60 * 24 * 3
         
         finder.delegate  = self
+      
+ 
+        
+        setupTableView()
+        
+        setRefresh()
+    }
+    
+    func setupTableView(){
         tableView = UITableView(frame:  CGRect(x: 0 , y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height ), style: UITableViewStyle.plain)
         tableView?.dataSource = self
         tableView?.delegate = self
@@ -56,7 +67,20 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         self.tableView?.register(UINib.init(nibName: "PictureCell", bundle: nil), forCellReuseIdentifier: cell)
         
         
-        request()
+    }
+    
+    
+    func setRefresh() {
+        
+        
+        // 下拉刷新
+        header.setRefreshingTarget(self, refreshingAction: #selector(request))
+        // 现在的版本要用mj_header
+        tableView?.mj_header = header
+        
+     header.beginRefreshing()
+        
+       
         
     }
     
@@ -78,10 +102,12 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
                     self.dataArray.append(pic)
                 }
                 self.tableView?.reloadData()
+                
+                self.tableView?.mj_header.endRefreshing()
             }
         }
     }
-    
+//
 
   
     
@@ -132,8 +158,6 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
                     //获取照片正确创建时间
                     date = date.addingTimeInterval(TimeInterval(second))
                     
-             
-
                     let formatter = DateFormatter()
                     let timeZone = TimeZone.init(identifier: "UTC")
                     formatter.timeZone = timeZone
@@ -162,19 +186,7 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     
     @IBOutlet weak var myImageV: UIImageView!
     
- 
-        
-     
-   
-    //按钮事件：上传图片
-    @IBAction func uploadImage(_ sender: Any) {
-        photoLib()
-    }
-   
-    //按钮事件：上传视频
-    @IBAction func uploadVideo(_ sender: Any) {
-        videoLib()
-    }
+
     
     //图库 - 照片
     func photoLib(){
@@ -254,23 +266,23 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         }else{
             //flag = "图片"
             
-            //获取选取后的图片
-            var pickedImage = info[UIImagePickerControllerOriginalImage] as! UIImage
-            
-          
-            
-            
-            //转成jpg格式图片
-            guard let jpegData = UIImageJPEGRepresentation(pickedImage, 0.01) else {
-                return
-            }
-            
+//            //获取选取后的图片
+//            var pickedImage = info[UIImagePickerControllerOriginalImage] as! UIImage
+//
+//
+//
+//
+//            //转成jpg格式图片
+//            guard let jpegData = UIImageJPEGRepresentation(pickedImage, 0.01) else {
+//                return
+//            }
+//
           
             //上传
-            self.uploadImage(imageData: jpegData)
+//            self.uploadImage(imageData: jpegData)
             
             //图片控制器退出
-            self.dismiss(animated: true, completion:nil)
+//            self.dismiss(animated: true, completion:nil)
         }
     }
     
@@ -307,19 +319,17 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
                     print(message)
                       SVProgressHUD.dismiss()
                     
-                      self.request()
+//                      self.request()
+                    
+                    self.tableView?.mj_header.beginRefreshing()
       
                 }
                 //获取上传进度
                 upload.uploadProgress(queue: DispatchQueue.global(qos: .utility)) { progress in
   
-                    print("====================================\(count)===================")
+                   
                     SVProgressHUD.showProgress(Float(progress.fractionCompleted), status: "正在上传第\(count)张")
-                    print("图片上传进度: \(progress.fractionCompleted)")
-                    
-                    
-                    
-                    
+  
                 }
             case .failure(let encodingError):
                 //打印连接失败原因
