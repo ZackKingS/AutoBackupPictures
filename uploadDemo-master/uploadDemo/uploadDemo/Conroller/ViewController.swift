@@ -37,23 +37,15 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     //设置标志，用于标识上传那种类型文件（图片／视频）
     var flag = ""
     var finder = M80RecentImageFinder()
-    
     let header = MJRefreshNormalHeader()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         
-        // Set max disk cache to 50 mb. Default is no limit.
-        cache.maxDiskCacheSize = 50 * 1024 * 1024
-        
-        // Set max disk cache to duration to 3 days, Default is 1 week.
-        cache.maxCachePeriodInSecond = 60 * 60 * 24 * 3
-        
+       
         finder.delegate  = self
       
- 
-        
         setupTableView()
         
         setRefresh()
@@ -66,6 +58,8 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         self.view.addSubview(tableView!)
         self.tableView?.register(UINib.init(nibName: "PictureCell", bundle: nil), forCellReuseIdentifier: cell)
         
+        cache.maxDiskCacheSize = 50 * 1024 * 1024
+        cache.maxCachePeriodInSecond = 60 * 60 * 24 * 3
         
     }
     
@@ -77,17 +71,13 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         header.setRefreshingTarget(self, refreshingAction: #selector(request))
         // 现在的版本要用mj_header
         tableView?.mj_header = header
-        
-     header.beginRefreshing()
+        header.beginRefreshing()
         
        
         
     }
     
-    
  
-    
-    
     func request() {
         SVProgressHUD.show()
         Alamofire.request(downLoadURL).responseJSON { response in
@@ -102,12 +92,10 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
                     self.dataArray.append(pic)
                 }
                 self.tableView?.reloadData()
-                
                 self.tableView?.mj_header.endRefreshing()
             }
         }
     }
-//
 
   
     
@@ -154,7 +142,6 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
                     var date:NSDate = mediaT.creationDate! as NSDate
                     let zone = NSTimeZone.local
                     let second:Int = zone.secondsFromGMT()
-                    
                     //获取照片正确创建时间
                     date = date.addingTimeInterval(TimeInterval(second))
                     
@@ -171,7 +158,7 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
                     
                     let imageD : UIImage = UIImage.init(data: data as Data)!
                     let compressData  = UIImageJPEGRepresentation(imageD, 0.01)
-                    
+
                     
                     self.uploadImage(imageData: compressData!  , time: creatTime as String ,count: number )
                     
@@ -318,9 +305,7 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
                     let message = JSON(result)["messsage"].stringValue
                     print(message)
                       SVProgressHUD.dismiss()
-                    
-//                      self.request()
-                    
+
                     self.tableView?.mj_header.beginRefreshing()
       
                 }

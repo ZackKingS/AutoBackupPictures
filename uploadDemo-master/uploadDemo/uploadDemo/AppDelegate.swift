@@ -22,57 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         
-//        let group = DispatchGroup(); //1.DispatchGroup
-//        let  queueRequest = DispatchQueue.global(); //2.DispatchQueue
-//
-//        queueRequest.async(group:group){
-//            let semaphore = DispatchSemaphore(value: 0); //3.DispatchSemaphore
-//            print("第1个")
-//            Alamofire.request("http://207.148.19.37/uploadFile/bringBackAllPics.php").responseJSON { response in
-//                semaphore.signal()
-//
-//                print(response)
-//            }
-//            let result = semaphore.wait(timeout: DispatchTime.distantFuture)
-//            if(result == DispatchTimeoutResult.success)
-//            {
-//                print("第1个请求回来")
-//            }
-//
-//        }
 
-//        queueRequest.async(group:group){
-//            let semaphore = DispatchSemaphore(value: 1);
-//            print("第2个")
-//            Alamofire.request("https://httpbin.org/get").responseJSON { response in
-//                semaphore.signal()
-//            }
-//            let result = semaphore.wait(timeout: DispatchTime.distantFuture)
-//            if(result == DispatchTimeoutResult.success)
-//            {
-//                print("第2个请求回来")
-//            }
-//        }
-//
-//        queueRequest.async(group:group){
-//            let semaphore = DispatchSemaphore(value: 2);
-//            print("第3个")
-//            Alamofire.request("https://httpbin.org/get").responseJSON { response in
-//                semaphore.signal()
-//            }
-//            let result = semaphore.wait(timeout: DispatchTime.distantFuture)
-//            if(result == DispatchTimeoutResult.success)
-//            {
-//                print("第3个请求回来")
-//            }
-//        }
-
-//        group.notify(queue: queueRequest){
-//            print("请求结束")
-//        }
-
-//        print("其他任务");
-//
     
     
 
