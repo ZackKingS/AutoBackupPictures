@@ -354,6 +354,9 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
   
                    
                     SVProgressHUD.showProgress(Float(progress.fractionCompleted), status: "正在上传第\(count)张")
+                    
+                    
+                    print("==========\(Float(progress.fractionCompleted))===========")
   
                 }
             case .failure(let encodingError):

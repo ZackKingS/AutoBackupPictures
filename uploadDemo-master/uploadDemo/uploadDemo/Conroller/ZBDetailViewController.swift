@@ -35,8 +35,6 @@ class ZBDetailViewController: UIViewController {
             
             ImageV.image = image
             
-//            print(image?.size.width)
-//            print(image?.size.height)
             
             if  Int((image?.size.width)!)  >  Int((image?.size.height)!)   {
 
@@ -44,29 +42,18 @@ class ZBDetailViewController: UIViewController {
                 self.picBotton.constant = 150
             }else{
 
-
+                self.picTop.constant =  50
+                self.picBotton.constant = 50
             }
             
-//            let  imagV = UIImageView()
-//
-//
-//            imagV.zb_width = UIScreen.main.bounds.size.width
-//
-//            imagV.zb_height =  imagV.zb_width  * (image?.size.height)! /  (image?.size.width)!
-//
-//
-//            print( imagV.zb_height)
-//
-//            imagV.center = view.center
-//
-//
-//
-//            imagV.image = image
-//
-//            self.view.addSubview(imagV)
-            
+
             
         }else{
+            
+            var str = "\(mainURL)/pics/\(picUrl)"
+            str = str.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+            let url = URL.init(string: str)
+            ImageV.kf.setImage(with: url)
             
            
         }
