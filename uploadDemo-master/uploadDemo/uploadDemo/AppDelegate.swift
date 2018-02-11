@@ -12,6 +12,8 @@
 //3.progress hud
 import UIKit
 import Alamofire
+import SwiftyJSON
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -22,8 +24,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         
+//        Alamofire.request("http://207.148.19.37/multipChocies/remoteLogin.php").responseJSON { (response) in
+//            switch response.result {
+//            case .success(let value):
+//                let json = JSON(value)
+////                print ("JSON: \(json)")
+//           
+//                let arr = json.arrayValue
+//                
+//                print(arr[0])
+//
+//            case .failure(let error):
+//                print("Error while querying database: \(String(describing: error))")
+//             
+//                return
+//            }
+//        }
 
-    
+        
+   
     
 
         return true
