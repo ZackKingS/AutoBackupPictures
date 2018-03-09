@@ -41,11 +41,34 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     var flag = ""
     var finder = M80RecentImageFinder()
     let header = MJRefreshNormalHeader()
-    
     var videoCreateTime = ""
+    
+    
+    var  images :NSMutableDictionary = {
+        let  images = NSMutableDictionary.init()
+        return images
+    }()
+    
+ 
+    var queue :OperationQueue = {
+        let queue  = OperationQueue.init()
+        queue.maxConcurrentOperationCount = 5
+        return queue
+    }()
+    
+    
+    
+    var operations :NSMutableDictionary = {
+        let  operations = NSMutableDictionary.init()
+        return operations
+        
+    }()
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         
 
         setupTableView()
@@ -169,8 +192,40 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
             //mp4
             NSObject.thumbnailImage(forVideo: url, atTime: TimeInterval.init(3.0), block: { (image) in
                  cell.imageV.image = image
+
             })
             
+            
+//                let caches = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true)[0]
+//                let fullPath =   caches + "/" + self.dataArray[indexPath.row].stringValue
+//
+//
+//                let url = NSURL.init(string: <#T##String#>)
+//
+//
+//                let imageData = NSData.init(contentsOf: url! as URL)
+//
+//                if imageData != nil {
+//                    let image = UIImage.init(data: imageData! as Data)
+//                    cell.imageV.image = image
+//                }else{
+//
+//                    NSObject.thumbnailImage(forVideo: url as! URL, atTime: TimeInterval.init(3.0), block: { (image) in
+//                        cell.imageV.image = image
+//
+//                        let imageData = UIImagePNGRepresentation(image!)! as NSData
+//                        do  {
+//                            try   imageData.write(toFile: fullPath, atomically: true)
+//                        }catch{
+//                            print(error)
+//                        }
+//                    })
+//                }
+            
+            
+            
+
+
         }else{
             //image
             cell.imageV.kf.setImage(with: url) //  dataArray[indexPath.row]
