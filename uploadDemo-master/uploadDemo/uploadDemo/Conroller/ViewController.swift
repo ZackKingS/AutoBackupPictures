@@ -182,26 +182,19 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let detailImageController = ZBDetailViewController()
-        
-        
-        print(dataArray[indexPath.row].stringValue)
-        
-        var mp4Path =  "\(mainURL)/pics/\(dataArray[indexPath.row].stringValue)"
-        
-        mp4Path = mp4Path.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
-        
-        print(mp4Path)
-       
-        
-        if dataArray[indexPath.row].stringValue.last == "4" {   //mp4
+        if dataArray[indexPath.row].stringValue.last == "4" {       //mp4
+            
+            var mp4Path =  "\(mainURL)/pics/\(dataArray[indexPath.row].stringValue)"
+            mp4Path = mp4Path.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
             let player = AVPlayer(url: URL.init(string: mp4Path)!)
             let playerViewController = AVPlayerViewController()
             playerViewController.player = player
             self.present(playerViewController, animated: true) {
                 playerViewController.player!.play()
             }
+            
         }else{                                                      //image
+            let detailImageController = ZBDetailViewController()
             detailImageController.picUrl = dataArray[indexPath.row].stringValue
             self.navigationController?.pushViewController(detailImageController, animated: true)
             
