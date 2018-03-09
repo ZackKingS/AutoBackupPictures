@@ -180,9 +180,35 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         
+        tableView.deselectRow(at: indexPath, animated: true)
+        
         let detailImageController = ZBDetailViewController()
-        detailImageController.picUrl = dataArray[indexPath.row].stringValue
-        self.navigationController?.pushViewController(detailImageController, animated: true)
+        
+        
+        print(dataArray[indexPath.row].stringValue)
+        
+        var mp4Path =  "\(mainURL)/pics/\(dataArray[indexPath.row].stringValue)"
+        
+        mp4Path = mp4Path.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+        
+        print(mp4Path)
+       
+        
+        if dataArray[indexPath.row].stringValue.last == "4" {   //mp4
+            let player = AVPlayer(url: URL.init(string: mp4Path)!)
+            let playerViewController = AVPlayerViewController()
+            playerViewController.player = player
+            self.present(playerViewController, animated: true) {
+                playerViewController.player!.play()
+            }
+        }else{                                                      //image
+            detailImageController.picUrl = dataArray[indexPath.row].stringValue
+            self.navigationController?.pushViewController(detailImageController, animated: true)
+            
+        }
+        
+        
+        
         
         
     }
@@ -304,9 +330,11 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
                 
                 videoCreateTime = creatTime
                 
-                print(videoCreateTime)
+               
                 
             } else {
+                
+                
                 // Fallback on earlier versions
             }
             
