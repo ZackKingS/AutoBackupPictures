@@ -32,9 +32,9 @@
         //回到主线程
         dispatch_async(dispatch_get_main_queue(), ^{
             
-            if (thumbnailImage != nil) {
+//            if (thumbnailImage != nil) {
                   block(thumbnailImage);
-            }
+//            }
             
           
         });

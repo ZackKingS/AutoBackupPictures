@@ -190,29 +190,60 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         
         if str.last == "4" {
             //mp4
-            NSObject.thumbnailImage(forVideo: url, atTime: TimeInterval.init(3.0), block: { (image) in
-                 cell.imageV.image = image
+            
+            let caches = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true)[0]
+            var fullPath =   caches + "/" + self.dataArray[indexPath.row].stringValue.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+            
+          
+            fullPath = fullPath.components(separatedBy: ".mp4").first!
+            fullPath = fullPath + ".png" //png
 
-            })
+            let imageData = NSData.init(contentsOfFile: fullPath)
+
+            if imageData != nil {
+
+                cell.imageV.image = UIImage.init(data: imageData! as Data)
+            }else{
+            
+                NSObject.thumbnailImage(forVideo: url, atTime: TimeInterval.init(3.0), block: { (image) in
+                    cell.imageV.image = image
+                    
+                    let imageData = UIImagePNGRepresentation(image!)! as NSData
+                    
+                  
+                        imageData.write(toFile: fullPath, atomically: true)
+                    
+   
+                  
+                })
+            }
+            
+        
             
             
+            
+            //从磁盘加载
 //                let caches = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true)[0]
-//                let fullPath =   caches + "/" + self.dataArray[indexPath.row].stringValue
+//                let fullPath =   caches + "/" + str
 //
 //
-//                let url = NSURL.init(string: <#T##String#>)
+//                let url = URL.init(string: fullPath)
 //
 //
-//                let imageData = NSData.init(contentsOf: url! as URL)
+//                let imageData = NSData.init(contentsOf: url! )
 //
 //                if imageData != nil {
 //                    let image = UIImage.init(data: imageData! as Data)
 //                    cell.imageV.image = image
 //                }else{
 //
-//                    NSObject.thumbnailImage(forVideo: url as! URL, atTime: TimeInterval.init(3.0), block: { (image) in
+//
+//                    //网络下载
+//                    NSObject.thumbnailImage(forVideo: url , atTime: TimeInterval.init(3.0), block: { (image) in
 //                        cell.imageV.image = image
 //
+//
+//                        //保存本地
 //                        let imageData = UIImagePNGRepresentation(image!)! as NSData
 //                        do  {
 //                            try   imageData.write(toFile: fullPath, atomically: true)
