@@ -14,8 +14,6 @@
 
 + (void)thumbnailImageForVideo:(NSURL *)videoURL atTime:(NSTimeInterval)time block:(void (^)(UIImage *))block{
     
-    
-
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         
         AVURLAsset *asset = [[AVURLAsset alloc] initWithURL:videoURL options:nil];
@@ -35,14 +33,9 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             block(thumbnailImage);
         });
-            
-        
-        
-        
+  
     });
     
-
-
 }
 
 @end

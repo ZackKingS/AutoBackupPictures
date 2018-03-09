@@ -167,7 +167,7 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         
         if str.last == "4" {
             //mp4
-            NSObject.thumbnailImage(forVideo: url, atTime: TimeInterval.init(0.0), block: { (image) in
+            NSObject.thumbnailImage(forVideo: url, atTime: TimeInterval.init(3.0), block: { (image) in
                  cell.imageV.image = image
             })
             
