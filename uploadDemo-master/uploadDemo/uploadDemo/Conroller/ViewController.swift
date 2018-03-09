@@ -42,6 +42,8 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     var finder = M80RecentImageFinder()
     let header = MJRefreshNormalHeader()
     
+    var videoCreateTime = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -284,9 +286,26 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
             let videoURL = info[UIImagePickerControllerMediaURL] as! URL
             
             if #available(iOS 11.0, *) {
-                let time = info[UIImagePickerControllerPHAsset] as! PHAsset
+                let asset = info[UIImagePickerControllerPHAsset] as! PHAsset
                 
-                print(time)
+                
+                var date:NSDate = asset.creationDate! as NSDate
+                let zone = NSTimeZone.local
+                let second:Int = zone.secondsFromGMT()
+                //获取照片正确创建时间
+                date = date.addingTimeInterval(TimeInterval(second))
+                
+                let formatter = DateFormatter()
+                let timeZone = TimeZone.init(identifier: "UTC")
+                formatter.timeZone = timeZone
+                formatter.locale = Locale.init(identifier: "zh_CN")
+                formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"  //格式有问题
+                let creatTime = formatter.string(from: date as Date)
+                
+                videoCreateTime = creatTime
+                
+                print(videoCreateTime)
+                
             } else {
                 // Fallback on earlier versions
             }
@@ -445,8 +464,9 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
             multipartFormData: { multipartFormData in
                 
                 
-                let name =  "\(Int(arc4random_uniform(100000)))"
-                multipartFormData.append( (name.data(using: String.Encoding.utf8)!), withName: "time")
+//                let name =  "\(Int(arc4random_uniform(100000)))"
+                
+                multipartFormData.append( (self.videoCreateTime.data(using: String.Encoding.utf8)!), withName: "time")
                 
                 multipartFormData.append(mp4Path, withName: "file", fileName: "123456.mp4", mimeType: "video/mp4")
                 //服务器地址
