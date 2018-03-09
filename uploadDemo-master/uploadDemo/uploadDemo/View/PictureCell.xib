@@ -17,13 +17,20 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="L9F-XP-X2q">
-                    <rect key="frame" x="20" y="12" width="65" height="77"/>
+                    <rect key="frame" x="20" y="20.5" width="60" height="60"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="65" id="TW9-2D-sXH"/>
+                        <constraint firstAttribute="height" constant="60" id="MBe-fD-dKD"/>
+                        <constraint firstAttribute="width" constant="60" id="TW9-2D-sXH"/>
                     </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="30"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                    </userDefinedRuntimeAttributes>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nxA-fh-iwj">
-                    <rect key="frame" x="90" y="32" width="37.5" height="18"/>
+                    <rect key="frame" x="85" y="40.5" width="37.5" height="18"/>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
@@ -31,8 +38,7 @@
             </subviews>
             <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="L9F-XP-X2q" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="12" id="4A7-lR-fl6"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="L9F-XP-X2q" secondAttribute="bottom" constant="12" id="F4B-je-bzH"/>
+                <constraint firstItem="L9F-XP-X2q" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="5c7-Nr-JFy"/>
                 <constraint firstItem="L9F-XP-X2q" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="afe-do-UIx"/>
                 <constraint firstItem="nxA-fh-iwj" firstAttribute="leading" secondItem="L9F-XP-X2q" secondAttribute="trailing" constant="5" id="qhw-bW-eCg"/>
                 <constraint firstItem="nxA-fh-iwj" firstAttribute="top" secondItem="L9F-XP-X2q" secondAttribute="top" constant="20" id="sfx-3M-sZm"/>

@@ -31,24 +31,29 @@ class PictureCell: UITableViewCell {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        
+//         setupUI()
     }
     
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {// 代码创建
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        setupUI()
+//        setupUI()
         
 //        imageV.clipsToBounds
         
   
     }
     
-    
-    func setupUI()  {
-        
-
-    }
+//
+//    func setupUI()  {
+//
+//
+//        imageV.layer.cornerRadius = imageV.frame.width / 2
+//        imageV.layer.masksToBounds = true
+//
+//    }
     
     
 }

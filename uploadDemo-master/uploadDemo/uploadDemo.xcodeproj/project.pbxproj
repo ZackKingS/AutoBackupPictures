@@ -141,12 +141,12 @@
 				3A51C190202D3AD000A674A1 /* Conroller */,
 				3A51C198202D3B4500A674A1 /* Utlity */,
 				3A51C193202D3B1600A674A1 /* View */,
-				EAC084C01F49FD0300545940 /* AppDelegate.swift */,
 				3A51C1A0202D84D100A674A1 /* 1234.png */,
 				3ABEFBC220296C35000143E0 /* uploadDemo-Bridging-Header.h */,
 				EAC084C91F49FD0300545940 /* LaunchScreen.storyboard */,
 				3A51C1A4202D940A00A674A1 /* Other */,
 				EAC084C41F49FD0300545940 /* Main.storyboard */,
+				EAC084C01F49FD0300545940 /* AppDelegate.swift */,
 				EAC084C71F49FD0300545940 /* Assets.xcassets */,
 				EAC084CC1F49FD0300545940 /* Info.plist */,
 			);

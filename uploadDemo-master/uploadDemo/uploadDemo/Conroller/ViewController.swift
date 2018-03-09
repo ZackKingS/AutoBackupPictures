@@ -20,6 +20,8 @@ import SVProgressHUD
 import Kingfisher
 import MJRefresh
 
+
+
 //设置服务器地址
 let mainURL = "http://207.148.19.37/uploadFile"
 //上传图片
@@ -94,6 +96,14 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
             }
         }
     }
+    
+    
+    
+    override func motionBegan(_ motion: UIEventSubtype, with event: UIEvent?) {
+        
+       videoLib()
+    }
+    
 
 
     // MARK: - UITableViewDataSource
@@ -242,6 +252,8 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
 
     //图库 - 视频
     func videoLib(){
+        
+        
         flag = "视频"
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
             //初始化图片控制器
@@ -269,50 +281,31 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     func imagePickerController(_ picker: UIImagePickerController,didFinishPickingMediaWithInfo info: [String : Any]) {
         if flag == "视频" {
             //获取选取的视频路径
-            let videoURL = info[UIImagePickerControllerReferenceURL] as! URL
-            let  fetchResult :PHFetchResult = PHAsset.fetchAssets(withALAssetURLs: [videoURL], options: nil)
-            fetchResult.enumerateObjects({ (phAsset, idx, nil) in
-                
-                let options :PHVideoRequestOptions = PHVideoRequestOptions()
-                options.version = .current
-                let manager :PHImageManager = PHImageManager.default()
-                manager.requestAVAsset(forVideo: phAsset, options: options, resultHandler: { (asset, audioMix, info) in
-        
-                    let urlAsset:AVURLAsset = asset as! AVURLAsset;
-                    let url :NSURL = urlAsset.url as NSURL;
-                    print(url) //file:///var/mobile/Media/PhotoData/Metadata/PhotoData/CPLAssets/group337/66DB0587-A13C-4D8A-97E5-D9975DEF971F.medium.MP4
-                    self.uploadVideo(mp4Path: url as URL)
-                })
-            })
+            let videoURL = info[UIImagePickerControllerMediaURL] as! URL
             
-
+            if #available(iOS 11.0, *) {
+                let time = info[UIImagePickerControllerPHAsset] as! PHAsset
+                
+                print(time)
+            } else {
+                // Fallback on earlier versions
+            }
+            
+            
+            let pathString = videoURL.path
+            print("视频地址：\(pathString)")
+            
+            
+            //            //图片控制器退出
             self.dismiss(animated: true, completion: nil)
-//            let outpath = NSHomeDirectory() + "/Documents/\(Date().timeIntervalSince1970).mp4"
-//            //视频转码
-//            self.transformMoive(inputPath: pathString, outputPath: outpath)
+            let outpath = NSHomeDirectory() + "/Documents/\(Date().timeIntervalSince1970).mp4"
+            //视频转码
+            self.transformMoive(inputPath: pathString, outputPath: outpath)
             
           
             
         }else{
-            //flag = "图片"
-            
-//            //获取选取后的图片
-//            var pickedImage = info[UIImagePickerControllerOriginalImage] as! UIImage
-//
-//
-//
-//
-//            //转成jpg格式图片
-//            guard let jpegData = UIImageJPEGRepresentation(pickedImage, 0.01) else {
-//                return
-//            }
-//
-          
-            //上传
-//            self.uploadImage(imageData: jpegData)
-            
-            //图片控制器退出
-//            self.dismiss(animated: true, completion:nil)
+     
         }
     }
     
@@ -369,58 +362,28 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         })
     }
     
-    // MARK: -  上传视频到服务器
-    func uploadVideo(mp4Path : URL){
-        Alamofire.upload(
-            //同样采用post表单上传
-            multipartFormData: { multipartFormData in
-                multipartFormData.append(mp4Path, withName: "file", fileName: "123456.mp4", mimeType: "video/mp4")
-                //服务器地址
-        },to: uploadURL,encodingCompletion: { encodingResult in
-            switch encodingResult {
-            case .success(let upload, _, _):
-                //json处理
-                upload.responseJSON { response in
-                    //解包
-                    guard let result = response.result.value else { return }
-                    print("\(result)")
-                   
-                    //须导入 swiftyJSON 第三方框架，否则报错
-                    //                    let message = JSON(result)["message"].int ?? -1
-                    let message = JSON(result)["messsage"].stringValue
-      
-                    if message == "1" {
-                        print("上传成功")
-                        let alert = UIAlertController(title:"提示",message:"上传成功", preferredStyle: .alert)
-                        let action2 = UIAlertAction(title: "关闭", style: .default, handler: nil)
-                        alert.addAction(action2)
-                        self.present(alert , animated: true , completion: nil)
-                    }else{
-                        print("上传失败")
-                        let alert = UIAlertController(title:"提示",message:"上传失败", preferredStyle: .alert)
-                        let action2 = UIAlertAction(title: "关闭", style: .default, handler: nil)
-                        alert.addAction(action2)
-                        self.present(alert , animated: true , completion: nil)
-                    }
-                }
-                //上传进度
-                upload.uploadProgress(queue: DispatchQueue.global(qos: .utility)) { progress in
-                    print("视频上传进度: \(progress.fractionCompleted)")
-                }
-            case .failure(let encodingError):
-                print(encodingError)
-            }
-        })
+  
+   
+    
+ 
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        
+        // Clear memory cache right away.
+        cache.clearMemoryCache()
+        
+        // Clear disk cache. This is an async operation.
+        cache.clearDiskCache()
+        
+        // Clean expired or size exceeded disk cache. This is an async operation.
+        cache.cleanExpiredDiskCache()
     }
     
-    /// 转换视频
-    ///
-    /// - Parameters:
-    ///   - inputPath: 输入url
-    ///   - outputPath:输出url
+
     func transformMoive(inputPath:String,outputPath:String){
-        
-        
+        //
+        //
         let avAsset:AVURLAsset = AVURLAsset(url: URL.init(fileURLWithPath: inputPath), options: nil)
         let assetTime = avAsset.duration
         
@@ -462,24 +425,83 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
             })
         }
     }
-    
- 
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+
+    //上传视频到服务器
+    func uploadVideo(mp4Path : URL){
         
-        // Clear memory cache right away.
-        cache.clearMemoryCache()
+//                print(mp4Path)
+//
+//
+//                let player = AVPlayer(url: mp4Path)
+//                let playerViewController = AVPlayerViewController()
+//                playerViewController.player = player
+//                self.present(playerViewController, animated: true) {
+//                    playerViewController.player!.play()
+//                }
         
-        // Clear disk cache. This is an async operation.
-        cache.clearDiskCache()
         
-        // Clean expired or size exceeded disk cache. This is an async operation.
-        cache.cleanExpiredDiskCache()
+        Alamofire.upload(
+            //同样采用post表单上传
+            multipartFormData: { multipartFormData in
+                
+                
+                let name =  "\(Int(arc4random_uniform(100000)))"
+                multipartFormData.append( (name.data(using: String.Encoding.utf8)!), withName: "time")
+                
+                multipartFormData.append(mp4Path, withName: "file", fileName: "123456.mp4", mimeType: "video/mp4")
+                //服务器地址
+        },to: uploadURL,encodingCompletion: { encodingResult in
+            switch encodingResult {
+            case .success(let upload, _, _):
+                //json处理
+                upload.responseJSON { response in
+                    //解包
+                    guard let result = response.result.value else { return }
+                    print("\(result)")
+                    //须导入 swiftyJSON 第三方框架，否则报错
+                    let success = JSON(result)["messsage"].stringValue
+                    if success == "1" {
+                        print("上传成功")
+                        let alert = UIAlertController(title:"提示",message:"上传成功", preferredStyle: .alert)
+                        let action2 = UIAlertAction(title: "关闭", style: .default, handler: nil)
+                        alert.addAction(action2)
+                        self.present(alert , animated: true , completion: nil)
+                    }else{
+                        print("上传失败")
+                        let alert = UIAlertController(title:"提示",message:"上传失败", preferredStyle: .alert)
+                        let action2 = UIAlertAction(title: "关闭", style: .default, handler: nil)
+                        alert.addAction(action2)
+                        self.present(alert , animated: true , completion: nil)
+                    }
+                }
+                //上传进度
+                upload.uploadProgress(queue: DispatchQueue.global(qos: .utility)) { progress in
+                    print("视频上传进度: \(progress.fractionCompleted)")
+                    
+                    
+                    let progress = String(format: "%.1f%%", progress.fractionCompleted * 100)
+                    
+                    
+                    self.navigationItem.title = progress
+                    
+                    
+                    SVProgressHUD.showInfo(withStatus: progress)
+                    SVProgressHUD.dismiss(withDelay:2)
+                    
+//                    DispatchQueue.main.async {
+//
+//
+//                        self.navigationItem.title = progress
+//
+//                    }
+                    
+                    
+                    
+                }
+            case .failure(let encodingError):
+                print(encodingError)
+            }
+        })
     }
-    
-
-   
-
 }
 
