@@ -153,6 +153,9 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         return "删除"
     }
 
+    
+    
+       // MARK: - cell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! PictureCell
@@ -160,11 +163,20 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         var str = "\(mainURL)/pics/\(self.dataArray[indexPath.row].stringValue)"
         str = str.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
         let url = URL(string: str)
-        cell.imageV.kf.setImage(with: url) //  dataArray[indexPath.row]
-//        cell.imageV.contentMode = .scaleAspectFit
         
-            cell.imageV.contentMode = .scaleAspectFill
         
+        if str.last == "4" {
+            //mp4
+            NSObject.thumbnailImage(forVideo: url, atTime: TimeInterval.init(0.0), block: { (image) in
+                 cell.imageV.image = image
+            })
+            
+        }else{
+            //image
+            cell.imageV.kf.setImage(with: url) //  dataArray[indexPath.row]
+        }
+
+        cell.imageV.contentMode = .scaleAspectFill
         return cell
 
     }
@@ -232,7 +244,7 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
                     let timeZone = TimeZone.init(identifier: "UTC")
                     formatter.timeZone = timeZone
                     formatter.locale = Locale.init(identifier: "zh_CN")
-                    formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"  //格式有问题
+                    formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"  
                     let creatTime = formatter.string(from: date as Date)
                     
                     //转换成string
@@ -421,6 +433,8 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     }
     
 
+    
+       // MARK: - 上传视频
     func transformMoive(inputPath:String,outputPath:String){
         //
         //
@@ -436,8 +450,6 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
             if existBool {
             }
             exportSession.outputURL = URL.init(fileURLWithPath: outputPath)
-            
-            
             exportSession.outputFileType = AVFileTypeMPEG4
             exportSession.shouldOptimizeForNetworkUse = true;
             exportSession.exportAsynchronously(completionHandler: {
@@ -521,19 +533,12 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
                     
                     
                     let progress = String(format: "%.1f%%", progress.fractionCompleted * 100)
-                    
-                    
-                    self.navigationItem.title = progress
-                    
-                    
+
                     SVProgressHUD.showInfo(withStatus: progress)
                     SVProgressHUD.dismiss(withDelay:2)
                     
 //                    DispatchQueue.main.async {
-//
-//
 //                        self.navigationItem.title = progress
-//
 //                    }
                     
                     

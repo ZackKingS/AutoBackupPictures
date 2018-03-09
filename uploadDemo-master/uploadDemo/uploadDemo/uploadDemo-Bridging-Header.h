@@ -4,3 +4,4 @@
 
 //#import "TableViewController.h"
 #import "M80RecentImageFinder.h"
+#import "NSObject+thumbnailImage.h"
