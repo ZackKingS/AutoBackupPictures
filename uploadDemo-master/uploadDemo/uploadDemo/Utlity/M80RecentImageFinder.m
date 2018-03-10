@@ -42,12 +42,22 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             if (status == PHAuthorizationStatusAuthorized) {
                 
+//                PHFetchResult *recentCollections = [PHAssetCollection
+//
+//                   fetchAssetCollectionsWithType  :   PHAssetCollectionTypeSmartAlbum
+//                                        subtype   :   PHAssetCollectionSubtypeSmartAlbumRecentlyAdded
+//                                                                                            options:nil];
+
                 PHFetchResult *recentCollections = [PHAssetCollection
-
-                   fetchAssetCollectionsWithType  :   PHAssetCollectionTypeSmartAlbum
-                                        subtype   :   PHAssetCollectionSubtypeSmartAlbumRecentlyAdded
-                                                                                            options:nil];
-
+                                                    
+                                                    fetchAssetCollectionsWithType  :   PHAssetCollectionTypeSmartAlbum
+                                                    subtype   :   PHAssetCollectionSubtypeSmartAlbumUserLibrary
+                                                    options:nil];
+                
+                
+                
+                
+                
                 
                 PHFetchOptions *fetchOptions = [PHFetchOptions new];
                 fetchOptions.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES]];
@@ -67,14 +77,17 @@
                     if ([obj isKindOfClass:[PHAsset class]])
                     {
                         PHAsset *asset = (PHAsset *)obj;
-                        
-                      
                         NSDate *creationDate = asset.creationDate;
-                        if ([creationDate timeIntervalSinceDate:date] > 0 &&
-                            [creationDate timeIntervalSinceDate:lastSearchDate] > 0)
-                        {
-                            [items addObject:asset];
-                        }
+                        
+
+                        
+                        //1.备份现在时间之前的照片 2.备份过的不要备份
+                            if ([creationDate timeIntervalSinceDate:[NSDate dateWithTimeIntervalSinceNow:0]] < 0 && [creationDate timeIntervalSinceDate:lastSearchDate] > 0)
+                            {
+                                    [items addObject:asset];
+                            }
+                        
+
                     }
                 }];
                 
@@ -84,6 +97,7 @@
                 }
                 
                 self.lastSearchDate = [NSDate date];
+               
             }
         });
     }];
@@ -105,5 +119,28 @@
 {
     [[NSUserDefaults standardUserDefaults] setObject:lastSearchDate
                                               forKey:M80LASTSEARCHDATE];
+}
+
+-(int)compareOneDay:(NSDate *)oneDay withAnotherDay:(NSDate *)anotherDay
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"dd-MM-yyyy"];
+    NSString *oneDayStr = [dateFormatter stringFromDate:oneDay];
+    NSString *anotherDayStr = [dateFormatter stringFromDate:anotherDay];
+    NSDate *dateA = [dateFormatter dateFromString:oneDayStr];
+    NSDate *dateB = [dateFormatter dateFromString:anotherDayStr];
+    NSComparisonResult result = [dateA compare:dateB];
+    NSLog(@"date1 : %@, date2 : %@", oneDay, anotherDay);
+    if (result == NSOrderedDescending) {
+        //NSLog(@"Date1  is in the future");
+        return 1;
+    }
+    else if (result == NSOrderedAscending){
+        //NSLog(@"Date1 is in the past");
+        return -1;
+    }
+    //NSLog(@"Both dates are the same");
+    return 0;
+    
 }
 @end

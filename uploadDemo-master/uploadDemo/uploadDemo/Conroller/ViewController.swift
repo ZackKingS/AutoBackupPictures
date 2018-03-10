@@ -210,8 +210,7 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
                     
                     let imageData = UIImagePNGRepresentation(image!)! as NSData
                     
-                  
-                        imageData.write(toFile: fullPath, atomically: true)
+                    imageData.write(toFile: fullPath, atomically: true)
                     
    
                   
