@@ -599,6 +599,8 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
                     //须导入 swiftyJSON 第三方框架，否则报错
                     let success = JSON(result)["messsage"].stringValue
                     if success == "1" {
+                        
+                        self.tableView?.mj_header.beginRefreshing()
                         print("上传成功")
                         let alert = UIAlertController(title:"提示",message:"上传成功", preferredStyle: .alert)
                         let action2 = UIAlertAction(title: "关闭", style: .default, handler: nil)
