@@ -218,40 +218,7 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
             }
             
         
-            
-            
-            
-            //从磁盘加载
-//                let caches = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true)[0]
-//                let fullPath =   caches + "/" + str
-//
-//
-//                let url = URL.init(string: fullPath)
-//
-//
-//                let imageData = NSData.init(contentsOf: url! )
-//
-//                if imageData != nil {
-//                    let image = UIImage.init(data: imageData! as Data)
-//                    cell.imageV.image = image
-//                }else{
-//
-//
-//                    //网络下载
-//                    NSObject.thumbnailImage(forVideo: url , atTime: TimeInterval.init(3.0), block: { (image) in
-//                        cell.imageV.image = image
-//
-//
-//                        //保存本地
-//                        let imageData = UIImagePNGRepresentation(image!)! as NSData
-//                        do  {
-//                            try   imageData.write(toFile: fullPath, atomically: true)
-//                        }catch{
-//                            print(error)
-//                        }
-//                    })
-//                }
-            
+     
             
             
 
