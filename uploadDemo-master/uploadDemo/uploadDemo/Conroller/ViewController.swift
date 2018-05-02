@@ -218,11 +218,6 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
             }
             
         
-     
-            
-            
-
-
         }else{
             //image
             cell.imageV.kf.setImage(with: url) //  dataArray[indexPath.row]
