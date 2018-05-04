@@ -265,47 +265,61 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         
     }
     
+    
+ 
+    
     // MARK: -  FindPicDelegate
-    func onFindRecentImages(_ images: [PHAsset]!) {
+    func onFindRecentImages(_ images: [PHAsset]!, date: [Date]!) {
+        
+    
 
         let options :PHImageRequestOptions = PHImageRequestOptions()
         options.version = .current
         let manager :PHImageManager = PHImageManager.default()
 
+        
         //1.发送多次请求
         for i in 0..<images.count {
             
+            
                 manager.requestImageData(for: images[i], options: options) { (imageData, string, orientation, info) in
                     let data = NSData.init(data: imageData!)
-                    
-                    
-                    let mediaT :PHAsset = images[i]
-                    //获取照片原始创建时间
-                    var date:NSDate = mediaT.creationDate! as NSDate
-                    let zone = NSTimeZone.local
-                    let second:Int = zone.secondsFromGMT()
-                    //获取照片正确创建时间
-                    date = date.addingTimeInterval(TimeInterval(second))
-                    
-                    let formatter = DateFormatter()
-                    let timeZone = TimeZone.init(identifier: "UTC")
-                    formatter.timeZone = timeZone
-                    formatter.locale = Locale.init(identifier: "zh_CN")
-                    formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"  
-                    let creatTime = formatter.string(from: date as Date)
-                    
-                    //转换成string
-                    print(creatTime)
-                    let number = "\(i+1)"
-                    
-                    let imageD : UIImage = UIImage.init(data: data as Data)!
-                    let compressData  = UIImageJPEGRepresentation(imageD, 0.01)
 
-                    
-                    self.uploadImage(imageData: compressData!  , time: creatTime as String ,count: number )
-                    
+                    self.preseAssetAndUploadImage(data: data,i:i,date: date[i] as NSDate)
+
                 }
             }
+    }
+    
+    func preseAssetAndUploadImage(data:NSData , i :Int ,date:NSDate){
+        
+        var date:NSDate = date
+        let zone = NSTimeZone.local
+        let second:Int = zone.secondsFromGMT()
+//        获取照片正确创建时间
+        date = date.addingTimeInterval(TimeInterval(second))
+        
+        let formatter = DateFormatter()
+        let timeZone = TimeZone.init(identifier: "UTC")
+        formatter.timeZone = timeZone
+        formatter.locale = Locale.init(identifier: "zh_CN")
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let creatTime = formatter.string(from: date as Date)
+        
+        //转换成string
+      
+     
+          print(creatTime)
+        
+        
+        let number = "\(i+1)"
+        
+        let imageD : UIImage = UIImage.init(data: data as Data)!
+        let compressData  = UIImageJPEGRepresentation(imageD, 0.01)
+        
+        
+        
+        self.uploadImage(imageData: compressData!  , time: creatTime as String ,count: number )
     }
     
     //图库 - 照片

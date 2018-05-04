@@ -68,10 +68,11 @@
                 PHAssetCollection *collection = [recentCollections firstObject];
                 PHFetchResult *result = [PHAsset fetchAssetsInAssetCollection:collection options:fetchOptions];
                 
-                NSDate *date = [NSDate dateWithTimeIntervalSinceNow:-120];
+//                NSDate *date = [NSDate dateWithTimeIntervalSinceNow:-120];
                 NSDate *lastSearchDate = self.lastSearchDate;
                 
                 NSMutableArray *items = [NSMutableArray array];
+                 NSMutableArray *dates = [NSMutableArray array];
                 
                 [result enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                     if ([obj isKindOfClass:[PHAsset class]])
@@ -84,7 +85,8 @@
                         //1.备份现在时间之前的照片 2.备份过的不要备份
                             if ([creationDate timeIntervalSinceDate:[NSDate dateWithTimeIntervalSinceNow:0]] < 0 && [creationDate timeIntervalSinceDate:lastSearchDate] > 0)
                             {
-                                    [items addObject:asset];
+                                [items addObject:asset];
+                                [dates addObject:creationDate];
                             }
                         
 
@@ -93,7 +95,7 @@
                 
                 if ([items count] > 0)
                 {
-                    [self.delegate onFindRecentImages:items];
+                    [self.delegate onFindRecentImages:items date:dates];
                 }
                 
                 self.lastSearchDate = [NSDate date];

@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <Photos/Photos.h>
 @protocol M80RecentImageFinderDelegate <NSObject>
-- (void)onFindRecentImages:(NSArray<PHAsset*> *)images;
+- (void)onFindRecentImages:(NSArray<PHAsset*> *)images  date:(NSArray<NSDate*> *)date;
 @end
 
 @interface M80RecentImageFinder : NSObject
