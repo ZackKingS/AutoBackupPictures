@@ -44,12 +44,13 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     var videoCreateTime = ""
     
     
+    
     var  images :NSMutableDictionary = {
         let  images = NSMutableDictionary.init()
         return images
     }()
     
- 
+    
     var queue :OperationQueue = {
         let queue  = OperationQueue.init()
         queue.maxConcurrentOperationCount = 5
@@ -70,7 +71,7 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         super.viewDidLoad()
         
         
-
+        
         setupTableView()
         setRefresh()
     }
@@ -90,15 +91,15 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         cache.maxCachePeriodInSecond = 60 * 60 * 24 * 3
         
     }
-
+    
     func setRefresh() {
-
+        
         // 下拉刷新
         header.setRefreshingTarget(self, refreshingAction: #selector(request))
         // 现在的版本要用mj_header
         tableView?.mj_header = header
         header.beginRefreshing()
-  
+        
     }
     
     /** request */
@@ -108,7 +109,7 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
             guard response.result.isSuccess else {
                 return
             }
-         
+            
             SVProgressHUD.dismiss()
             if let value = response.result.value {
                 let json = JSON(value).arrayValue
@@ -126,11 +127,11 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     
     override func motionBegan(_ motion: UIEventSubtype, with event: UIEvent?) {
         
-       videoLib()
+        videoLib()
     }
     
-
-
+    
+    
     // MARK: - UITableViewDataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dataArray.count
@@ -141,8 +142,8 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         return true
     }
     
-   
-     // MARK: - 删除图片
+    
+    // MARK: - 删除图片
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         // 同时你也需要实现本方法,否则自定义action是不会显示的,啦啦啦
         
@@ -152,15 +153,15 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         var url  = "\(deletePictureURL)?filename=\(title)"
         url = url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
         Alamofire.request(url).responseJSON { response in
-
-
+            
+            
             switch response.result {
             case .success(let value):
                 let json = JSON(value)
                 print ("JSON: \(json)")
                 self.request()
                 SVProgressHUD.dismiss()
-           
+                
                 
             case .failure(let error):
                 print("Error while querying database: \(String(describing: error))")
@@ -170,15 +171,15 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         }
     }
     
-   
-   
+    
+    
     func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
         return "删除"
     }
-
     
     
-       // MARK: - cell
+    
+    // MARK: - cell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! PictureCell
@@ -194,41 +195,44 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
             let caches = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true)[0]
             var fullPath =   caches + "/" + self.dataArray[indexPath.row].stringValue.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
             
-          
+            
             fullPath = fullPath.components(separatedBy: ".mp4").first!
             fullPath = fullPath + ".png" //png
-
-            let imageData = NSData.init(contentsOfFile: fullPath)
-
-            if imageData != nil {
-
-                cell.imageV.image = UIImage.init(data: imageData! as Data)
-            }else{
             
-                NSObject.thumbnailImage(forVideo: url, atTime: TimeInterval.init(3.0), block: { (image) in
-                    cell.imageV.image = image
-                    
-                    let imageData = UIImagePNGRepresentation(image!)! as NSData
-                    
-                    imageData.write(toFile: fullPath, atomically: true)
-                    
-   
-                  
-                })
+            let imageData = NSData.init(contentsOfFile: fullPath)
+            
+            if imageData != nil {
+                
+                //                cell.imageV.image = UIImage.init(data: imageData! as Data)
+                
+            }else{
+                
+                //                NSObject.thumbnailImage(forVideo: url, atTime: TimeInterval.init(3.0), block: { (image) in
+                //                    cell.imageV.image = image
+                //
+                //                    let imageData = UIImagePNGRepresentation(image!)! as NSData
+                //
+                //                    imageData.write(toFile: fullPath, atomically: true)
+                //
+                //
+                //
+                //                })
             }
             
-        
+            
         }else{
             //image
             cell.imageV.kf.setImage(with: url) //  dataArray[indexPath.row]
+            
+            
         }
-
+        
         cell.imageV.contentMode = .scaleAspectFill
         return cell
-
+        
     }
     
-   // MARK: -  UITableViewDelegate
+    // MARK: -  UITableViewDelegate
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80
     }
@@ -266,29 +270,43 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     }
     
     
- 
+    
     
     // MARK: -  FindPicDelegate
     func onFindRecentImages(_ images: [PHAsset]!, date: [Date]!) {
         
-    
-
+        
+        
         let options :PHImageRequestOptions = PHImageRequestOptions()
         options.version = .current
         let manager :PHImageManager = PHImageManager.default()
-
+        
         
         //1.发送多次请求
         for i in 0..<images.count {
             
             
-                manager.requestImageData(for: images[i], options: options) { (imageData, string, orientation, info) in
-                    let data = NSData.init(data: imageData!)
-
-                    self.preseAssetAndUploadImage(data: data,i:i,date: date[i] as NSDate)
-
+            manager.requestImageData(for: images[i], options: options) { (imageData, string, orientation, info) in
+                //                    let data = NSData.init(data: imageData!)
+                //                    self.preseAssetAndUploadImage(data: data,i:i,date: date[i] as NSDate)
+                
+                autoreleasepool {
+                    
+                    weak var weakSelf = self
+                    
+                    let uploadOperation = BlockOperation.init(block: {
+                        let data = NSData.init(data: imageData!)
+                        weakSelf?.preseAssetAndUploadImage(data: data,i:i,date: date[i] as NSDate)
+                        
+                    })
+                    
+                    self.queue.addOperation(uploadOperation)
                 }
+                
             }
+        }
+        
+        
     }
     
     func preseAssetAndUploadImage(data:NSData , i :Int ,date:NSDate){
@@ -296,7 +314,7 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         var date:NSDate = date
         let zone = NSTimeZone.local
         let second:Int = zone.secondsFromGMT()
-//        获取照片正确创建时间
+        //        获取照片正确创建时间
         date = date.addingTimeInterval(TimeInterval(second))
         
         let formatter = DateFormatter()
@@ -305,12 +323,6 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         formatter.locale = Locale.init(identifier: "zh_CN")
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         let creatTime = formatter.string(from: date as Date)
-        
-        //转换成string
-      
-     
-          print(creatTime)
-        
         
         let number = "\(i+1)"
         
@@ -343,7 +355,7 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         }
     }
     
-
+    
     //图库 - 视频
     func videoLib(){
         
@@ -369,7 +381,7 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     }
     
     
-
+    
     
     //选择视频成功后代理
     func imagePickerController(_ picker: UIImagePickerController,didFinishPickingMediaWithInfo info: [String : Any]) {
@@ -396,7 +408,7 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
                 
                 videoCreateTime = creatTime
                 
-               
+                
                 
             } else {
                 
@@ -415,30 +427,30 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
             //视频转码
             self.transformMoive(inputPath: pathString, outputPath: outpath)
             
-          
+            
             
         }else{
-     
+            
         }
     }
     
     // MARK: -  上传图片到服务器
     func uploadImage(imageData : Data ,time :String,  count:String  ){
         
-      
+        
+        //    let semaphore = DispatchSemaphore(value: 1)
+        
         Alamofire.upload(
             multipartFormData: { multipartFormData in
                 //采用post表单上传
                 // 参数解释：
-                
-         
                 
                 multipartFormData.append( (time.data(using: String.Encoding.utf8)!), withName: "time")
                 
                 //withName:和后台服务器的name要一致 fileName:自己随便写，但是图片格式要写对 mimeType：规定的，要上传其他格式可以自行百度查一下
                 multipartFormData.append(imageData, withName: "file", fileName: "123456.png", mimeType: "image/jpeg")
                 
-
+                
                 
         },to: uploadURL,encodingCompletion: { encodingResult in
             switch encodingResult {
@@ -453,32 +465,39 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
                     //须导入 swiftyJSON 第三方框架，否则报错
                     let message = JSON(result)["messsage"].stringValue
                     print(message)
-                      SVProgressHUD.dismiss()
-
+                    SVProgressHUD.dismiss()
+                    
                     self.tableView?.mj_header.beginRefreshing()
-      
+                    
+                    
+                    //                    semaphore.signal()
+                    
                 }
                 //获取上传进度
                 upload.uploadProgress(queue: DispatchQueue.global(qos: .utility)) { progress in
-  
-                   
+                    
+                    
                     SVProgressHUD.showProgress(Float(progress.fractionCompleted), status: "正在上传第\(count)张")
                     
                     
                     print("==========\(Float(progress.fractionCompleted))===========")
-  
+                    
                 }
             case .failure(let encodingError):
                 //打印连接失败原因
+                //                 semaphore.signal()
                 print(encodingError)
             }
         })
+        
+        //        semaphore.wait()
+        
     }
     
-  
-   
     
- 
+    
+    
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -493,9 +512,9 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
         cache.cleanExpiredDiskCache()
     }
     
-
     
-       // MARK: - 上传视频
+    
+    // MARK: - 上传视频
     func transformMoive(inputPath:String,outputPath:String){
         //
         //
@@ -538,19 +557,19 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
             })
         }
     }
-
+    
     //上传视频到服务器
     func uploadVideo(mp4Path : URL){
         
-//                print(mp4Path)
-//
-//
-//                let player = AVPlayer(url: mp4Path)
-//                let playerViewController = AVPlayerViewController()
-//                playerViewController.player = player
-//                self.present(playerViewController, animated: true) {
-//                    playerViewController.player!.play()
-//                }
+        //                print(mp4Path)
+        //
+        //
+        //                let player = AVPlayer(url: mp4Path)
+        //                let playerViewController = AVPlayerViewController()
+        //                playerViewController.player = player
+        //                self.present(playerViewController, animated: true) {
+        //                    playerViewController.player!.play()
+        //                }
         
         
         Alamofire.upload(
@@ -558,7 +577,7 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
             multipartFormData: { multipartFormData in
                 
                 
-//                let name =  "\(Int(arc4random_uniform(100000)))"
+                //                let name =  "\(Int(arc4random_uniform(100000)))"
                 
                 multipartFormData.append( (self.videoCreateTime.data(using: String.Encoding.utf8)!), withName: "time")
                 
@@ -596,13 +615,13 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
                     
                     
                     let progress = String(format: "%.1f%%", progress.fractionCompleted * 100)
-
+                    
                     SVProgressHUD.showInfo(withStatus: progress)
                     SVProgressHUD.dismiss(withDelay:2)
                     
-//                    DispatchQueue.main.async {
-//                        self.navigationItem.title = progress
-//                    }
+                    //                    DispatchQueue.main.async {
+                    //                        self.navigationItem.title = progress
+                    //                    }
                     
                     
                     
