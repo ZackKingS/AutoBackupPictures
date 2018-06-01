@@ -70,8 +70,6 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate, UINaviga
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        
         setupTableView()
         setRefresh()
     }
