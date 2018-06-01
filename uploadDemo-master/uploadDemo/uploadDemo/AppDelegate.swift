@@ -58,6 +58,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillResignActive(_ application: UIApplication) {
        
         print("codes in dev branch")
+        
+        
+        
+        print("do a lots of things in new dev ")
     }
     
     func applicationDidEnterBackground(_ application: UIApplication) {
